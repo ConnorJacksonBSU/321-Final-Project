@@ -24,7 +24,9 @@ public class GeneBankCreateBtree {
 
     int degree = Integer.parseInt(args[1]);
 
-    if (degree == 0) degree = 102;
+    if (degree == 0) {
+       degree = 102;
+    }
 
     String geneBankFile = args[2];
 
@@ -64,7 +66,57 @@ public class GeneBankCreateBtree {
 
     try {
         scanner = new Scanner(new File(geneBankFile));
+    } 
+    catch (FileNotFoundException e) {
+        System.out.println("Could not find file '" + geneBankFile + "'");
+        return;
     }
+
+    while (scanner.hasNext()) {
+
+        try {
+            while (!scanner.nextLine().trim().equals("ORIGIN")) {
+
+            }
+
+        }
+
+        catch (NoSuchElementException e) {
+            System.out.println("Invalid geneBankFile");
+            System.exit(1);
+
+        }
+
+        char[] currentGeneSequence = new char[geneSequenceLength];
+        int currentSequenceLength = 0;
+
+        for (String sequence = scanner.nextLine(); !sequence.trim().equals("//"); sequence = scanner.nextLine()) {
+            for( char charTemp : sequence.toCharArray()) {
+                if (contains(charTemp, usedChars)) {
+                    if(charTemp == 'n' || charTemp == 'N') {
+                        currentSequenceLength = 0;
+                    } else {
+                        currentSequenceLength += 1;
+                        shiftSequence(currentGeneSequence, charTemp);
+                        if (currentSequenceLength >= geneSequenceLength) {
+
+                            treeOne.BTreeIncrementFrequency(sequenceToLong(currentGeneSequence));
+                        }
+                    }
+                }
+            }
+        }
+     }
+
+     scanner.close();
+
+     treeOne.finalizeFile();
+
+
+     if(debugged) {
+         writeDebugFile(treeOne);
+     }
+
 
 
 
@@ -72,5 +124,77 @@ public class GeneBankCreateBtree {
 
 
     
+    }
+
+    static void shiftSequence(char[] array, char newChar) {
+        for (int i = 0; i < array.length - 1; i++) {
+
+        }
+
+        array[array.length - 1 ] = newChar;
+    }
+
+    static boolean contains(char ch, char[] array) {
+        for (char charOne : array) {
+            if (charOne == ch)
+                return true;
+        }
+            
+        return false;
+    }
+
+    static long sequenceToLong(char[] sequence) {
+        long value = 0;
+
+        for (int pos = 0; pos < sequence.length; pos++) {
+            char ch = sequence[pos];
+            long overlay = 0;
+
+            switch (Character.toUpperCase(ch)) {
+                case 'A':
+                overlay = 0;
+                case 'C':
+                overlay = 1;
+                case 'G':
+                overlay = 2;
+                case 'T':
+                overlay = 3;
+                break;
+            }
+
+            value |= overlay << (pos *2);
+
+        }
+
+        return value;
+    }
+
+    static char[] longToSequence(long value, int length) {
+        char[] sequence = new char[length];
+
+        for (int position = 0; position < length; position++) {
+            long bits = (value >> position *2) & 3;
+            switch ((int)bits) {
+                case 0:
+                sequence[position] = 'A';
+                break;
+                case 1:
+                sequence[position] = 'C';
+                break;
+                case 2:
+                sequence[position] = 'G';
+                break;
+                case 3:
+                sequence[position] = 'T';
+                break; 
+            }
+        }
+        return sequence;
+
+    }
+
+    static void writeDebugFile(BTree treeOne) {
+        String printString = treeOne.inorderTraversalToSTring(treeOne.root);
+        try
     }
 }
