@@ -92,7 +92,7 @@ public class GeneBankCreateBtree {
 
         for (String sequence = scanner.nextLine(); !sequence.trim().equals("//"); sequence = scanner.nextLine()) {
             for( char charTemp : sequence.toCharArray()) {
-                if (contains(charTemp, validCharacters)) {
+                if (contains(charTemp, usedChars)) {
                     if(charTemp == 'n' || charTemp == 'N') {
                         currentSequenceLength = 0;
                     } else {
@@ -189,5 +189,12 @@ public class GeneBankCreateBtree {
                 break; 
             }
         }
+        return sequence;
+
+    }
+
+    static void writeDebugFile(BTree treeOne) {
+        String printString = treeOne.inorderTraversalToSTring(treeOne.root);
+        try
     }
 }
