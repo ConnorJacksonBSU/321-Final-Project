@@ -1,4 +1,5 @@
 import java.io.File;  
+import java.io.FileWriter;
 import java.io.FileNotFoundException; 
 import java.util.Scanner; 
 
@@ -20,8 +21,7 @@ public class GeneBankCreateBTree {
 		int argSeqLength;
 		int debuglvl;
 		String gbkFile;
-		
-		
+		String dataFileName = "";
 		
 		if(args.length > 6) {
 			printUsage();
@@ -37,12 +37,18 @@ public class GeneBankCreateBTree {
 		}
 		debuglvl = Integer.parseInt(args[5]);
 		
+		if(gbkFile.lastIndexOf('/') != -1) {
+			dataFileName = gbkFile.substring(gbkFile.lastIndexOf('/') + 1);
+		} else {
+			dataFileName = gbkFile;
+		}
+		dataFileName += ".btree.data." + argSeqLength + "." + argDegree;
 		
 		GeneBankCreateBTree myGeneBank = new GeneBankCreateBTree(argDegree,argSeqLength, gbkFile);
-		myGeneBank.parseFile();
+		myGeneBank.parseFile(debuglvl);
 	}
 	
-	private void parseFile() {
+	private void parseFile(int debug) {
 		try {
 			File geneSeqFile = new File(this.file);
 			Scanner fileScanner = new Scanner(geneSeqFile);
@@ -82,8 +88,13 @@ public class GeneBankCreateBTree {
 						if(seqBtree.BTreeSearch(seqBtree.getRoot(), longRep) == null) {
 							seqBtree.BTreeInsert(longRep);
 						}
-						
 					}
+				}
+				String outString = seqBtree.dumpBTree(seqBtree.getRoot());
+				if(debug == 1) {
+					FileWriter writer = new FileWriter("Dump.txt");
+					writer.write(outString);
+					writer.close();
 				}
 			}
 			fileScanner.close();

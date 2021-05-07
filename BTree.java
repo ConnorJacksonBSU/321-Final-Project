@@ -29,18 +29,18 @@ public class BTree {
 	
 	public TreeObject BTreeSearch(BTreeNode currNode, long key){
 		int index = 0;
-		while(index < currNode.getNumKeys() && key > currNode.checkKey(index)) {
+		while((index < currNode.getNumKeys()) && (key > currNode.checkKey(index))) {
 			index++;
 		}
-		if(index < currNode.getNumKeys() && key == currNode.checkKey(index)) {
+		if((index < currNode.getNumKeys()) && (key == currNode.checkKey(index))) {
 			currNode.retrieveTreeObject(index).increaseFrequency();
 			return currNode.retrieveTreeObject(index);
-		} else if(currNode.isLeaf) {
+		} 
+		if (currNode.isLeaf) {
 			return null;
-		} else {
+		} 
 			
-			return BTreeSearch(currNode.retrieveChild(index), key);
-		}
+		return BTreeSearch(currNode.children[index], key);
 		
 	}
 	
@@ -63,21 +63,21 @@ public class BTree {
 	private void BTreeInsertNonFull(BTreeNode currNode, TreeObject item) {
 		int i = currNode.numKeys - 1;
 		if(currNode.isLeaf) {
-			while(i >= 0 && item.getKey() < currNode.keys[i].getKey()) {
+			while(i >= 0 && item.getlongKey() < currNode.keys[i].getlongKey()) {
 				currNode.keys[i + 1] = currNode.keys[i];
 				i = i - 1;
 			}
 			currNode.keys[i + 1] = item;
 			currNode.numKeys = currNode.numKeys + 1;
 		} else {
-			while (i >= 0 && currNode.keys[i].getKey() > item.getKey()) {
+			while (i >= 0 && currNode.keys[i].getlongKey() > item.getlongKey()) {
 				i--;
 			}
 			i = i + 1;
 			if(currNode.children[i].numKeys  == 2 * degree - 1) {
 				BTreeSplitChild(currNode, i);
-				if(item.getKey() > currNode.keys[i].getKey()) {
-					i = i;
+				if(item.getlongKey() > currNode.keys[i].getlongKey()) {
+					i = i + 1;
 				}
 			}
 			BTreeInsertNonFull(currNode.children[i], item);
@@ -85,7 +85,7 @@ public class BTree {
 	}
 	
 	private void BTreeSplitChild(BTreeNode currNode, int index) {
-		BTreeNode y = currNode.retrieveChild(index);
+		BTreeNode y = currNode.children[index];
 		BTreeNode z = new BTreeNode(degree,y.isLeaf);
 		z.numKeys = degree - 1;
 		
@@ -110,6 +110,25 @@ public class BTree {
 		
 		currNode.numKeys = currNode.numKeys + 1;
 	}
+	
+	public String dumpBTree(BTreeNode currNode) {
+		int traverse;
+		String bTreeString = "";
+		for(traverse = 0; traverse < currNode.numKeys; traverse++) {
+			if(!currNode.isLeaf) {
+				bTreeString += dumpBTree(currNode.children[traverse]);
+			}
+			bTreeString += currNode.keys[traverse].toString();
+		}
+		
+		if(!currNode.isLeaf) {
+			bTreeString += dumpBTree(currNode.children[traverse]);
+		}
+		
+		return bTreeString;
+		
+	}
+	
 	
 	 /**
      * 
@@ -155,7 +174,7 @@ public class BTree {
         }
         
         public long checkKey(int index) {
-        	return keys[index].getKey();
+        	return keys[index].getlongKey();
         }
         
         public TreeObject retrieveTreeObject(int index){
@@ -184,7 +203,7 @@ public class BTree {
     	
     	// equality function
     	boolean equals(TreeObject otherItem) {
-    		if(this.key == otherItem.getKey())
+    		if(this.key == otherItem.getlongKey())
     			return true;
     		return false;
     	}
@@ -197,13 +216,36 @@ public class BTree {
     		frequency++;
     	}
     	   	
-    	public long getKey() {
+    	public long getlongKey() {
     		return key;
     	}
     	
     	public String toString() {
     		String s = "";
-    		return s += key;
+    		s += frequency + " " + convertLongToSequence(key) + " ";
+    		return s;
+    	}
+    	
+    	private String convertLongToSequence(Long key) {
+    		String GeneSeq = "";
+    		long longValue = 0;
+    		for(int i = 0; i < 3; i++) {
+    			longValue = (key >> i * 2) & 3;
+    			if((int)longValue == 0) {
+    				GeneSeq += "A";
+    			}
+    			if((int)longValue == 3) {
+    				GeneSeq += "T";
+    			}
+    			if((int)longValue == 1) {
+    				GeneSeq += "C";
+    			}
+    			if((int)longValue == 2) {
+    				GeneSeq += "G";
+    			}
+    		}
+    		
+    		return GeneSeq;
     	}
 	}
 }
