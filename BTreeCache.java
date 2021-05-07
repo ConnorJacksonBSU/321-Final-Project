@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class BTreeCache<BTreeNode> 
+public class BTreeCache<BTreeNode> {
 	private int size;
 	private int hitCount;
 	private int missCount;
