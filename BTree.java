@@ -137,7 +137,7 @@ public class BTree {
      * used in the class BTree. 
      */
 
-    private class BTreeNode {
+    public class BTreeNode {
 
         //Instance Variables
         // t
@@ -191,7 +191,7 @@ public class BTree {
       
     }
 	
-    private class TreeObject {
+    public class TreeObject {
     	private long key;
     	private int frequency;
     	
