@@ -17,6 +17,7 @@ public class BTreeCache<BTreeNode> {
 public boolean addBTN(BTreeNode btn) {
 
     if (isNode(btn)) {
+		
 	    
         if (checkCache(btn)) {
 		    list.remove(btn);
@@ -70,8 +71,7 @@ public boolean checkCache(BTreeNode btn) {
 }
 
 public double getRatio() {
-
-return ((double) getHitCount()) / (getHitCount() + getMissCount()); 
+double hitRatio = ((double) getHitCount()) / (getHitCount() + getMissCount()); 
 }
 
 public boolean isNode(BTreeNode btn) {
@@ -79,5 +79,4 @@ public boolean isNode(BTreeNode btn) {
 	return true;
     }
     return false;
-}
 }
