@@ -3,6 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import BTree.BTreeNode;
+
+
 public class GeneBankSearch {
     public static void main(String[] args) {
 
@@ -18,9 +21,10 @@ public class GeneBankSearch {
         //if the first arg isn't 0 or 1, printUsage
         else if (args[0] != "0" && args[0] != "1") { printUsage(); }
 
-
-        //reading in the cache size
-        if(userCache == true && args.length >= 4) { cacheSize = Integer.parseInt(args[3]); }
+         
+        boolean userCache = false;
+		//reading in the cache size
+        if(userCache  == true && args.length >= 4) { cacheSize = Integer.parseInt(args[3]); }
 
 
         //reading in the BTree Files
@@ -35,7 +39,7 @@ public class GeneBankSearch {
             //A tree to store the values read in by the scanner
             BTree storedTree = new BTree(3);
 
-            ArrayList<BTreeNode> parents = new ArrayList<BTreeNode>();
+            ArrayList<BTreeNode> parents = new ArrayList<BTree>();
 
             
             /**
