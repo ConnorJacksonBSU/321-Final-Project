@@ -1,3 +1,9 @@
+/**
+* BTree Implementation
+* @author (s) Andrew Moorcroft, Jackson Looney, Connor Jackson
+* 
+*/
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -59,6 +65,7 @@ public class BTree {
 		return this.root;
 	}
 	
+	/** Searches the tree for a given object with the corresponding key*/
 	public TreeObject BTreeSearch(BTreeNode currNode, long key){
 		int index = 0;
 		while((index < currNode.getNumKeys()) && (key > currNode.checkKey(index))) {
@@ -91,6 +98,7 @@ public class BTree {
 		}
 	}
 	
+	/**  Inserts into the BTree*/
 	public void BTreeInsert(long k, int freuqency) {
 		TreeObject newObj = new TreeObject(k, freuqency);
 		BTreeNode currNode = this.root;
