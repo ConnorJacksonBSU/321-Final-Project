@@ -1,3 +1,8 @@
+/**
+* Searches the specified BTree for sequences of the given length.
+* @author Jackson Looney, Andrew Moorcroft, Connor Jackson
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
