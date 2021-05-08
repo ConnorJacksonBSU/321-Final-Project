@@ -1,3 +1,8 @@
+/**
+* GeneBankCreate BTree class creates a BTree and Stores a Gene Bank File inside
+* @author Andrew MoorCroft
+*/
+
 import java.io.File;  
 import java.io.FileWriter;
 import java.io.FileNotFoundException; 
