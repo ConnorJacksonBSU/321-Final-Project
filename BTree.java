@@ -1,3 +1,8 @@
+/**
+* Implementation of a BTree data Structure
+* @author Jackson Looney, Andrew Moorcroft
+*/
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
