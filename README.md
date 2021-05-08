@@ -11,12 +11,13 @@ This program uses BTrees to sequence and store the human genome by taking in Gen
 
 ## Contained Files:
 
-- BTree.java : Class that implements a BTree data Structure. Has an inner class BTreeNode, that is utilized.
+- BTree.java : Class that embodies a BTree data Structure. Has an inner class BTreeNode, Which holds key and child value. Inner Class TreeObject holds the
+               actual keys.
 - BTreeCache.java : Cache implementation that stores BTreeNodes
 
-- GeneBankCreateBTree : takes a Gene Bank file, and stores it in a BTree.
+- GeneBankCreateBTree : Takes a Gene Bank file, and puts it into a B tree which is then deposited into a data file .
 
-- GeneBankSearch.java : Uses the Gene Bank B Tree, and searches it for sequences of a given length.
+- GeneBankSearch.java : Uses the B Tree File, and searches it for sequences of a given length.
 ## Usage
 
 In Terminal:
@@ -38,7 +39,9 @@ java GeneBankSearch <0/1(no/with Cache)> <btree file> <query file> <cache size >
 ## BTree Disk Description
 
 
-The root node is always kept in memory, and is only written to disk when the program ends , and gets read in when the program starts. The block size is 4096 bytes. 
+The root node is kept in memory, and is written to disk via a data file when the GeneBankCreateDataTree ends. GeneBankSearch Will find a created data file and then passes it to our BTree class which reimplements the file into a working BTree.
+
+The block size is 4096 bytes. 
 
 
 4096 = 4k + 4C +K(2t -1) + 2tF
