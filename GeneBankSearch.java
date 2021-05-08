@@ -1,3 +1,9 @@
+/**
+* Searches the GeneBank that is stored in a BTree for frequencies of Genes
+* @author Jackson Looney, Andrew Moorcroft
+*/
+
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
