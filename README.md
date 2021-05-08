@@ -2,6 +2,13 @@
 
 This program uses BTrees to sequence and store the human genome. 
 
+## Contributing
+- Connor Jackson
+- Andrew Moorcroft
+- Jackson Looney
+
+
+
 ## Contained Files:
 
 - BTree.java : Class that implements a BTree data Structure. Has an inner class BTreeNode, that is utilized.
@@ -24,12 +31,6 @@ java GeneBankCreateBTree <0/1(no/with Cache)> <degree> <gbk file> <sequence leng
 
 java GeneBankSearch <0/1(no/with Cache)> <btree file> <query file> <cache size > [<debug level>]
 ```
-
-## Contributing
-- Connor Jackson
-- Andrew Moorcroft
-- Jackson Looney
-
 
 
 
