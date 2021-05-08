@@ -38,14 +38,14 @@ java GeneBankSearch <0/1(no/with Cache)> <btree file> <query file> <cache size >
 ## BTree Disk Description
 
 
-The root node is always kept in memory, and is only written to disk when the program ends , and gets read in when the program starts. The block size is 4096 bytes. The offset is 4 bytes. 
+The root node is always kept in memory, and is only written to disk when the program ends , and gets read in when the program starts. The block size is 4096 bytes. 
 
 
 4096 = 4k + 4C +K(2t -1) + 2tF
 
 C = K+1
 
-
+As for the actual calculations, we couldn't find the offset for our specific BTree, also the exact bytes for each object +key, and the metadata.
 
 ## Notes
 
