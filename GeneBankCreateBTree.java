@@ -1,8 +1,3 @@
-/**
-* GeneBankCreate BTree class creates a BTree and Stores a Gene Bank File inside
-* @author Andrew MoorCroft
-*/
-
 import java.io.File;  
 import java.io.FileWriter;
 import java.io.FileNotFoundException; 
@@ -19,7 +14,7 @@ public class GeneBankCreateBTree {
 		this.degree = degree;
 		this.seqLength = seqLength;
 		this.file = file;
-		this.seqBtree = new BTree(degree);
+		this.seqBtree = new BTree(degree, seqLength);
 	}
 	
 	public static void main(String []args) {
@@ -92,6 +87,7 @@ public class GeneBankCreateBTree {
 						parseString += fileString.charAt(i);
 						longRep = convertSequenceToLong(parseString);
 						BTree.TreeObject findTreeObject = seqBtree.BTreeSearch(seqBtree.getRoot(), longRep);
+						System.out.println();
 						if(findTreeObject == null) {
 							seqBtree.BTreeInsert(longRep);
 						} else{

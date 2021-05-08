@@ -1,9 +1,3 @@
-/**
-* BTree Implementation
-* @author (s) Andrew Moorcroft, Jackson Looney, Connor Jackson
-* 
-*/
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -16,13 +10,15 @@ public class BTree {
     private BTreeNode root;
     // t
 	private int degree;
+	private int seqLength;
 
 	/**
 	 * Creates a new BTree with a new starting root
 	 * @param maxOrder
 	 */
-	public BTree(int degree) {
+	public BTree(int degree,int seqLength) {
         this.degree = degree;
+        this.seqLength = seqLength;
 		BTreeNode rootNode = new BTreeNode(degree, true);
 		this.root = rootNode;
 	}
@@ -31,8 +27,9 @@ public class BTree {
 	 * Creates a new BTree with a new starting root
 	 * @param maxOrder
 	 */
-	public BTree(int degree, String FileName) {
+	public BTree(int degree, int seqLength, String FileName) {
         this.degree = degree;
+        this.seqLength = seqLength;
 		BTreeNode rootNode = new BTreeNode(degree, true);
 		this.root = rootNode;
 		try {
@@ -65,7 +62,6 @@ public class BTree {
 		return this.root;
 	}
 	
-	/** Searches the tree for a given object with the corresponding key*/
 	public TreeObject BTreeSearch(BTreeNode currNode, long key){
 		int index = 0;
 		while((index < currNode.getNumKeys()) && (key > currNode.checkKey(index))) {
@@ -98,7 +94,6 @@ public class BTree {
 		}
 	}
 	
-	/**  Inserts into the BTree*/
 	public void BTreeInsert(long k, int freuqency) {
 		TreeObject newObj = new TreeObject(k, freuqency);
 		BTreeNode currNode = this.root;
@@ -311,7 +306,7 @@ public class BTree {
     	private String convertLongToSequence(Long key) {
     		String GeneSeq = "";
     		long longValue = 0;
-    		for(int i = 0; i < 3; i++) {
+    		for(int i = 0; i < seqLength; i++) {
     			longValue = (key >> i * 2) & 3;
     			if((int)longValue == 0) {
     				GeneSeq += "A";

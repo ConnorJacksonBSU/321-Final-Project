@@ -1,9 +1,3 @@
-/**
-* Searches the GeneBank that is stored in a BTree, for sequences of a given length
-* @author Jackson Looney, Andrew Moorcroft
-*/
-
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -44,7 +38,8 @@ public class GeneBankSearch {
             Scanner scan = new Scanner(bTreeFile);
             //A tree to store the values read in by the scanner
             int degree = Integer.parseInt(args[1].substring(args[1].lastIndexOf(".") + 1));
-            BTree storedTree = new BTree(degree, args[1]);
+            int seqLength = Integer.parseInt(args[1].substring(args[1].lastIndexOf(".") - 1, args[1].lastIndexOf(".")));
+            BTree storedTree = new BTree(degree,seqLength,  args[1]);
 
             ArrayList<BTree.BTreeNode> parents = new ArrayList<BTree.BTreeNode>();
 
@@ -78,7 +73,12 @@ public class GeneBankSearch {
         		}
 
                 BTree.TreeObject sequenceQuery = storedTree.BTreeSearch(storedTree.getRoot(), key);
-                System.out.println(sequenceQuery.getFrequency() + " " + nextLine);
+                if(sequenceQuery != null) {
+                	System.out.println(sequenceQuery.getFrequency() + " " + nextLine);
+                } else {
+                	System.out.println(0 + " " + nextLine);
+                }
+                
                 
             }   
 
