@@ -1,3 +1,7 @@
+/**
+* Implementation of a Cache using BTreeNodes
+*/
+
 import java.util.*;
 
 public class BTreeCache<BTreeNode> {
