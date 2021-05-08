@@ -1,3 +1,7 @@
+/**
+* Takes in a Gene Bank file, and stores it in a BTree
+* @author Andrew Moorcroft, Connor Jackson, Jackson Looney
+*/
 import java.io.File;  
 import java.io.FileWriter;
 import java.io.FileNotFoundException; 
