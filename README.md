@@ -39,7 +39,7 @@ java GeneBankSearch <0/1(no/with Cache)> <btree file> <query file> <cache size >
 ## BTree Disk Description
 
 
-The root node is kept in memory, and is written to disk via a data file when the GeneBankCreateDataTree ends. GeneBankSearch Will find a created data file and then passes it to our BTree class which reimplements the file into a working BTree.
+The root node is kept in memory, and is written to disk via a data file when the GeneBankCreateDataTree ends. GeneBankSearch Will find a created data file and then passes it to our BTree class which reimplements the file into a working BTree. The data file is an in order traversal of the BTree and the data that is required for reimplementation 
 
 The block size is 4096 bytes. 
 
@@ -50,8 +50,5 @@ C = K+1
 
 As for the actual calculations, we couldn't find the offset for our specific BTree, also the exact bytes for each object +key, and the metadata.
 
-## Notes
-
-The gene sequence is stored as a string, and the sequence is able to be re-implemented into a BTree, via the BTree constructor.
 
 
