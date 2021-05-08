@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Scanner;
+import java.io.File;
 import java.io.IOException;
 
 public class BTree {
@@ -20,6 +22,36 @@ public class BTree {
 	}
 	
 	/**
+	 * Creates a new BTree with a new starting root
+	 * @param maxOrder
+	 */
+	public BTree(int degree, String FileName) {
+        this.degree = degree;
+		BTreeNode rootNode = new BTreeNode(degree, true);
+		this.root = rootNode;
+		try {
+		File geneSeqFile = new File(FileName);
+		Scanner fileScanner = new Scanner(geneSeqFile);
+		int frequency = fileScanner.nextInt();
+		String sequecne = fileScanner.next();
+		long key = convertSequenceToLong(sequecne);
+		BTreeInsert(key, frequency);
+		
+		while(fileScanner.hasNext()) {
+			frequency = fileScanner.nextInt();
+			sequecne = fileScanner.next();
+			key = convertSequenceToLong(sequecne);
+			BTreeInsert(key, frequency);
+		}
+		
+		
+		fileScanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
 	 * Getter for the root of the tree
 	 * @return
 	 */
@@ -33,7 +65,6 @@ public class BTree {
 			index++;
 		}
 		if((index < currNode.getNumKeys()) && (key == currNode.checkKey(index))) {
-			currNode.retrieveTreeObject(index).increaseFrequency();
 			return currNode.retrieveTreeObject(index);
 		} 
 		if (currNode.isLeaf) {
@@ -46,6 +77,22 @@ public class BTree {
 	
 	public void BTreeInsert(long k) {
 		TreeObject newObj = new TreeObject(k);
+		BTreeNode currNode = this.root;
+		
+		if(currNode.numKeys == 2 * degree - 1) {
+			BTreeNode s = new BTreeNode(degree, false);
+			this.root = s;
+			s.numKeys = 0;
+			s.children[0] = currNode;
+			BTreeSplitChild(s, 0);
+			BTreeInsertNonFull(s,newObj);
+		} else {
+			BTreeInsertNonFull(currNode,newObj);
+		}
+	}
+	
+	public void BTreeInsert(long k, int freuqency) {
+		TreeObject newObj = new TreeObject(k, freuqency);
 		BTreeNode currNode = this.root;
 		
 		if(currNode.numKeys == 2 * degree - 1) {
@@ -129,6 +176,28 @@ public class BTree {
 		
 	}
 	
+	private long convertSequenceToLong(String sequence) {
+		long binarySequence = 0;
+		long longValue = 0;;
+		for(int i = 0; i < sequence.length(); i++) {
+			if(sequence.toUpperCase().charAt(i) == 'A') {
+				binarySequence = 0;
+			}
+			if(sequence.toUpperCase().charAt(i) == 'T') {
+				binarySequence = 3;
+			}
+			if(sequence.toUpperCase().charAt(i) == 'C') {
+				binarySequence = 1;
+			}
+			if(sequence.toUpperCase().charAt(i) == 'G') {
+				binarySequence = 2;
+			}
+			longValue |= binarySequence << (i * 2);
+		}
+		
+		return longValue;
+	}
+	
 	
 	 /**
      * 
@@ -201,6 +270,11 @@ public class BTree {
     		this.frequency = 1;
     	}
     	
+    	public TreeObject(long key, int frequency) { 
+    		this.key = key;
+    		this.frequency = frequency;
+    	}
+    	
     	// equality function
     	boolean equals(TreeObject otherItem) {
     		if(this.key == otherItem.getlongKey())
@@ -244,8 +318,8 @@ public class BTree {
     				GeneSeq += "G";
     			}
     		}
-    		
-    		return GeneSeq;
+    		StringBuilder revserseSequecne = new StringBuilder(GeneSeq);
+    		return revserseSequecne.reverse().toString();
     	}
 	}
 }

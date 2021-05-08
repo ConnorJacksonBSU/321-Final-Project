@@ -3,10 +3,10 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import BTree.BTreeNode;
-
 
 public class GeneBankSearch {
+	
+	
     public static void main(String[] args) {
 
         int cacheSize = 0;
@@ -19,12 +19,12 @@ public class GeneBankSearch {
         //setting the cacheImp, via the first arg
         if(args[0].equals("1")) { cacheImp = true; }
         //if the first arg isn't 0 or 1, printUsage
-        else if (args[0] != "0" && args[0] != "1") { printUsage(); }
+        //else if (args[0] != "0" && args[0] != "1") { printUsage(); }
 
          
         boolean userCache = false;
 		//reading in the cache size
-        if(userCache  == true && args.length >= 4) { cacheSize = Integer.parseInt(args[3]); }
+        //if(userCache  == true && args.length >= 4) { cacheSize = Integer.parseInt(args[3]); }
 
 
         //reading in the BTree Files
@@ -37,9 +37,10 @@ public class GeneBankSearch {
             //Scanner for the bTreeFile
             Scanner scan = new Scanner(bTreeFile);
             //A tree to store the values read in by the scanner
-            BTree storedTree = new BTree(3);
+            int degree = Integer.parseInt(args[1].substring(args[1].lastIndexOf(".") + 1));
+            BTree storedTree = new BTree(degree, args[1]);
 
-            ArrayList<BTreeNode> parents = new ArrayList<BTree>();
+            ArrayList<BTree.BTreeNode> parents = new ArrayList<BTree.BTreeNode>();
 
             
             /**
@@ -47,61 +48,33 @@ public class GeneBankSearch {
              */
             Scanner qFileScan = new Scanner(queryFile);
             char input;
-            String key = "" ;
+            long binaryValue = 0;
+            long key = 0;
+            String nextLine = "";
             while(qFileScan.hasNext()){
-                String nextLine = qFileScan.next();
+                nextLine = qFileScan.nextLine();
+                key = 0;
                 //storing the letters as binary numbers
-                for(int i = 0; i<nextLine.length(); i++) {
-                    
-                    input = nextLine.charAt(i);
-                    if(input == 'a' || input =='A') { 
-                        key += "00";
-                    } else if(input == 'c' || input == 'C') {
-                        key += "01";
-                    } else if(input == 'g' || input == 'G') {
-                        key += "10";
-                    } else if(input == 't' || input == 'T') {
-                        key += "11";
-                    }
+                for(int i = 0; i < nextLine.length(); i++) {
+        			if(nextLine.toUpperCase().charAt(i) == 'A') {
+        				binaryValue = 0;
+        			}
+        			if(nextLine.toUpperCase().charAt(i) == 'T') {
+        				binaryValue = 3;
+        			}
+        			if(nextLine.toUpperCase().charAt(i) == 'C') {
+        				binaryValue = 1;
+        			}
+        			if(nextLine.toUpperCase().charAt(i) == 'G') {
+        				binaryValue = 2;
+        			}
+        			key |= binaryValue << (i * 2);
+        		}
 
-                }
-
-                BTreeNode rootNode = storedTree.searchKey(storedTree.getRoot(), key);
-
-                if(rootNode != null) { System.out.println(key); }
-
-                //resets the key placeholder
-                key = "";
+                BTree.TreeObject sequenceQuery = storedTree.BTreeSearch(storedTree.getRoot(), key);
+                System.out.println(sequenceQuery.getFrequency() + " " + nextLine);
+                
             }   
-             
-            /**
-             * Scanning the BTree File
-             */
-            while(scan.hasNextLine()){
-                String line = scan.nextLine();
-                Scanner lineScan = new Scanner(line);
-
-                lineScan.useDelimiter(",");
-                int parentIndex = lineScan.nextInt();
-
-                BTreeNode newNode = new BTreeNode();
-
-                //while there is still keys in the line, add it to the new Node
-                while(lineScan.hasNext()) {
-                    newNode.addKey(lineScan.next());
-                }
-
-                //add the new node to the list of parents
-                parents.add(newNode);
-
-                //if the parent isn't the first parent of the node, then decrease it's index, else create a new BTree
-                if(parentIndex != 0){
-                    parentIndex = parentIndex - 1;
-                    parents.get(parentIndex).addChild(newNode);
-                } else {
-                    storedTree = new BTree(newNode);
-                }
-            }
 
 
         } catch( Exception e) { 
