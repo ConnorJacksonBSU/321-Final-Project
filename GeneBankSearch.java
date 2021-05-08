@@ -1,5 +1,5 @@
 /**
-* Searches the GeneBank that is stored in a BTree for frequencies of Genes
+* Searches the GeneBank that is stored in a BTree, for sequences of a given length
 * @author Jackson Looney, Andrew Moorcroft
 */
 
