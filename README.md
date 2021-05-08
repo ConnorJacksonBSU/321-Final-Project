@@ -1,6 +1,6 @@
 # Bioinformatics
 
-This program uses BTrees to sequence and store the human genome. 
+This program uses BTrees to sequence and store the human genome by taking in Gene Bank files.
 
 ## Contributing
 - Connor Jackson
