@@ -1,6 +1,6 @@
 /**
 * Implementation of a BTree data Structure
-* @author Jackson Looney, Andrew Moorcroft
+* @author Jackson Looney, Andrew Moorcroft, Connor Jackson
 */
 
 import java.util.ArrayList;
